@@ -10,7 +10,7 @@ import { Head, Link } from '@inertiajs/vue3';
     </Head>
     <div
         class="flex min-h-screen flex-col items-center bg-gray-100  text-[#1b1b18] lg:justify-center dark:bg-[#0a0a0a]">
-        <div class="navbar border bg-white border-red-500 mb-6 shadow-sm">
+        <div class="navbar border bg-white border-red-500 shadow-sm">
             <div class="flex-1">
                 <a class="card-title text-xl text-red-600">SENAI-OM</a>
             </div>
@@ -34,7 +34,8 @@ import { Head, Link } from '@inertiajs/vue3';
             </div>
         </div>
 
-        <div class="flex w-full items-center justify-center opacity-100 transition-opacity duration-750 lg:grow starting:opacity-0">
+        <div
+            class="flex w-full items-center justify-center opacity-100 transition-opacity duration-750 lg:grow starting:opacity-0">
             <div class="card bg-base-100 w-96 h-96
              shadow-md">
                 <div class="card-body">
@@ -42,9 +43,15 @@ import { Head, Link } from '@inertiajs/vue3';
                     <p>Bem vindo ao sistema SENAI para gerenciamento de ordens de manutenção</p>
                 </div>
                 <figure>
-                    <img src="https://yt3.googleusercontent.com/wyGnsuVLCBoHStdhQ3Tj7Wr48yb_Oi2e1OmP2Rly99xB6wwe66T64bhCNDZkP5xxNHxF-lsE1A=s900-c-k-c0x00ffffff-no-rj" alt="Shoes" />
+                    <img src="https://yt3.googleusercontent.com/wyGnsuVLCBoHStdhQ3Tj7Wr48yb_Oi2e1OmP2Rly99xB6wwe66T64bhCNDZkP5xxNHxF-lsE1A=s900-c-k-c0x00ffffff-no-rj"
+                        alt="Shoes" />
                 </figure>
             </div>
         </div>
+        <footer class="footer border border-gray-300 sm:footer-horizontal footer-center bg-base-300 text-base-content p-4">
+            <aside>
+                <p>Desenvolvido por João Renan Celso. SENAI 5.03</p>
+            </aside>
+        </footer>
     </div>
 </template>
