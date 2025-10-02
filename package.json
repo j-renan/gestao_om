@@ -33,6 +33,7 @@
         "daisyui": "^5.1.6",
         "laravel-vite-plugin": "^1.0",
         "lucide-vue-next": "^0.468.0",
+        "pikaday": "^1.8.2",
         "reka-ui": "^2.2.0",
         "tailwind-merge": "^3.2.0",
         "tailwindcss": "^4.1.1",
