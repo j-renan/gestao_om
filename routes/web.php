@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,6 +15,8 @@ Route::get('dashboard', function () {
 Route::get('new-order', function () {
     return Inertia::render('NewOrder');
 })->middleware(['auth', 'verified'])->name('new-order');
+
+Route::post('orders', [OrderController::class, 'store'])->middleware(['auth', 'verified'])->name('orders.store');
 
 Route::get('orders', function () {
     return Inertia::render('Orders');

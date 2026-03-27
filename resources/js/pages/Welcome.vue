@@ -4,18 +4,18 @@ import { Head, Link } from '@inertiajs/vue3';
 
 <template>
 
-    <Head title="Welcome">
+    <Head title="Página Inicial">
         <link rel="preconnect" href="https://rsms.me/" />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     </Head>
     <div
         class="flex min-h-screen flex-col items-center bg-gray-100  text-[#1b1b18] lg:justify-center dark:bg-[#0a0a0a]">
-        <div class="navbar border bg-white border-red-500 shadow-sm">
+        <div class="navbar border bg-white border-primary shadow-sm">
             <div class="flex w-30 items-center justify-center rounded-md">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUU9uH4-kpTYm4GxBN9IzsVD4WRLpYhpFbPQ&s" alt="senai">
             </div>
             <div class="flex-1">
-                <a class="card-title text-xl text-red-600"> - OM</a>
+                <a class="card-title text-xl text-primary"> - OM</a>
             </div>
             <div class="flex-none">
                 <nav class="flex items-center justify-end gap-4">
@@ -25,7 +25,7 @@ import { Head, Link } from '@inertiajs/vue3';
                     </Link>
                     <template v-else>
                         <Link :href="route('login')"
-                            class="inline-block rounded-sm border shadow-sm border-red-500 px-5 py-1.5 text-sm leading-normal transition delay-100 ease-in-out text-red-600 hover:scale-110 hover:border-red-800 hover:bg-red-400 hover:text-white hover:shadow-md dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]">
+                            class="inline-block rounded-sm border shadow-sm border-primary px-5 py-1.5 text-sm leading-normal transition delay-100 ease-in-out text-primary hover:scale-110 hover:border-primary hover:bg-primary hover:text-white hover:shadow-md dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]">
                         Entrar
                         </Link>
                         <Link :href="route('register')"

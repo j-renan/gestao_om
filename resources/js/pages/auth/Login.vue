@@ -29,10 +29,10 @@ const submit = () => {
 
 <template>
     <div class="min-h-screen flex items-center justify-center p-4 bg-gray-100 dark:bg-gray-900">
-        <div class="rounded-lg text-card-foreground w-full max-w-md bg-white shadow-2xl border border-red-500">
+        <div class="rounded-lg text-card-foreground w-full max-w-md bg-white shadow-2xl border border-primary">
             <AuthBase title="Entre em sua conta" description="Digite seu e-mail e senha para acessar sua conta">
 
-                <Head title="Log in" />
+                <Head title="Entrar" />
 
                 <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
                     {{ status }}
@@ -67,9 +67,9 @@ const submit = () => {
                             </Label>
                         </div>
 
-                        <Button type="submit" class="mt-4 w-full bg-red-400 border shadow-sm border-red-800 px-5 py-1.5 text-sm leading-normal transition delay-100 ease-in-out text-white hover:scale-105 hover:border-red-900 hover:bg-red-600 hover:text-white hover:shadow-md" :tabindex="4" :disabled="form.processing">
+                        <Button type="submit" class="mt-4 w-full bg-primary border shadow-sm border-primary px-5 py-1.5 text-sm leading-normal transition delay-100 ease-in-out text-primary-foreground hover:scale-105 hover:border-primary/90 hover:bg-primary/90 hover:text-white hover:shadow-md" :tabindex="4" :disabled="form.processing">
                             <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
-                            Log in
+                            Entrar
                         </Button>
                     </div>
 
