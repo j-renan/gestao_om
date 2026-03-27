@@ -1,25 +1,17 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
+import { type BreadcrumbItem, type User, type Order } from '@/types';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
-import { ClipboardList, Clock, CheckCircle, AlertCircle } from 'lucide-vue-next';
-
-interface Order {
-    id: number;
-    solicitante: string;
-    ni: string;
-    tipo_manutencao: string;
-    prioridade: string;
-    gestor_responsavel: string;
-    prazo: string;
-    status: string;
-    created_at: string;
-}
+import { ClipboardList, Clock, CheckCircle, AlertCircle, UserPlus, Save } from 'lucide-vue-next';
 
 const props = defineProps<{
     orders: Order[];
+    technicians: User[];
 }>();
+
+const page = usePage();
+const userRole = computed(() => page.props.auth.user.role);
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -74,6 +66,32 @@ const formatDate = (dateString: string) => {
     return `${day}/${month}/${year}`;
 };
 
+const updateForm = useForm({
+    tecnico_id: null as number | null,
+    status: '' as string,
+});
+
+const editingOrder = ref<number | null>(null);
+
+const startEdit = (order: Order) => {
+    editingOrder.value = order.id;
+    updateForm.tecnico_id = order.tecnico_id;
+    updateForm.status = order.status;
+};
+
+const saveOrder = (orderId: number) => {
+    updateForm.patch(route('orders.update', orderId), {
+        onSuccess: () => {
+            editingOrder.value = null;
+        },
+        preserveScroll: true,
+    });
+};
+
+const cancelEdit = () => {
+    editingOrder.value = null;
+    updateForm.reset();
+};
 </script>
 
 <template>
@@ -148,8 +166,10 @@ const formatDate = (dateString: string) => {
                                     <th>Solicitante</th>
                                     <th>Tipo</th>
                                     <th>Prioridade</th>
+                                    <th>Técnico</th>
                                     <th>Prazo</th>
                                     <th>Status</th>
+                                    <th v-if="['admin', 'supervisor', 'technician'].includes(userRole)" class="text-right">Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -162,10 +182,45 @@ const formatDate = (dateString: string) => {
                                             {{ order.prioridade }}
                                         </div>
                                     </td>
+                                    <td>
+                                        <template v-if="editingOrder === order.id && ['admin', 'supervisor'].includes(userRole)">
+                                            <select v-model="updateForm.tecnico_id" class="select select-ghost select-xs w-full max-w-xs border border-base-300">
+                                                <option :value="null">Não atribuído</option>
+                                                <option v-for="tech in technicians" :key="tech.id" :value="tech.id">
+                                                    {{ tech.name }}
+                                                </option>
+                                            </select>
+                                        </template>
+                                        <div v-else class="text-sm italic flex items-center gap-1">
+                                            <span v-if="order.tecnico">{{ order.tecnico.name }}</span>
+                                            <span v-else class="opacity-50">Não atribuído</span>
+                                            <UserPlus v-if="['admin', 'supervisor'].includes(userRole) && editingOrder !== order.id" 
+                                                class="size-3 cursor-pointer hover:text-primary transition-colors" 
+                                                @click="startEdit(order)" />
+                                        </div>
+                                    </td>
                                     <td>{{ formatDate(order.prazo) }}</td>
                                     <td>
-                                        <div :class="['badge badge-sm font-semibold text-white border-0', getStatusClass(order.status)]">
+                                        <template v-if="editingOrder === order.id">
+                                            <select v-model="updateForm.status" class="select select-ghost select-xs w-full max-w-xs border border-base-300">
+                                                <option value="Pendente">Pendente</option>
+                                                <option value="Em Andamento">Em Andamento</option>
+                                                <option value="Finalizada">Finalizada</option>
+                                            </select>
+                                        </template>
+                                        <div v-else :class="['badge badge-sm font-semibold text-white border-0 cursor-pointer', getStatusClass(order.status)]"
+                                            @click="['admin', 'supervisor', 'technician'].includes(userRole) ? startEdit(order) : null">
                                             {{ order.status }}
+                                        </div>
+                                    </td>
+                                    <td v-if="['admin', 'supervisor', 'technician'].includes(userRole)" class="text-right">
+                                        <div v-if="editingOrder === order.id" class="flex gap-1 justify-end">
+                                            <button @click="saveOrder(order.id)" class="btn btn-ghost btn-xs text-success p-0 min-h-0 h-auto" :disabled="updateForm.processing">
+                                                <Save class="size-4" />
+                                            </button>
+                                            <button @click="cancelEdit" class="btn btn-ghost btn-xs text-error p-0 min-h-0 h-auto">
+                                                <AlertCircle class="size-4 rotate-45" />
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>

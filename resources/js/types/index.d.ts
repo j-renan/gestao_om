@@ -30,9 +30,25 @@ export interface User {
     name: string;
     email: string;
     avatar?: string;
+    role: 'admin' | 'supervisor' | 'technician' | 'collaborator';
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+}
+
+export interface Order {
+    id: number;
+    tecnico_id: number | null;
+    user_id: number;
+    solicitante: string;
+    ni: string;
+    tipo_manutencao: string;
+    prioridade: string;
+    prazo: string;
+    status: string;
+    created_at: string;
+    user?: { name: string };
+    tecnico?: { name: string };
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;

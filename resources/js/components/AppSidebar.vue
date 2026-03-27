@@ -1,14 +1,18 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import { BookOpen, CirclePlus, Folder, Folders, LayoutGrid, UserCog } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
-const mainNavItems: NavItem[] = [
+const page = usePage();
+const userRole = computed(() => page.props.auth.user?.role);
+
+const allNavItems: (NavItem & { roles?: string[] })[] = [
     {
         title: 'Painel',
         href: '/dashboard',
@@ -18,6 +22,7 @@ const mainNavItems: NavItem[] = [
         title: 'Nova Ordem',
         href: '/new-order',
         icon: CirclePlus,
+        roles: ['admin', 'collaborator'],
     },
     {
         title: 'Ordens',
@@ -28,8 +33,16 @@ const mainNavItems: NavItem[] = [
         title: 'Usuários',
         href: '/users',
         icon: UserCog,
+        roles: ['admin'],
     },
 ];
+
+const mainNavItems = computed(() => {
+    return allNavItems.filter(item => {
+        if (!item.roles) return true;
+        return item.roles.includes(userRole.value);
+    });
+});
 
 const footerNavItems: NavItem[] = [
     {
