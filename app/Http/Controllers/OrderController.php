@@ -8,6 +8,17 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+    public function index()
+    {
+        $orders = Order::where('user_id', Auth::id())
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return inertia('Orders', [
+            'orders' => $orders,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

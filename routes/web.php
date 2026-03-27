@@ -18,9 +18,7 @@ Route::get('new-order', function () {
 
 Route::post('orders', [OrderController::class, 'store'])->middleware(['auth', 'verified'])->name('orders.store');
 
-Route::get('orders', function () {
-    return Inertia::render('Orders');
-})->middleware(['auth', 'verified'])->name('orders');
+Route::get('orders', [OrderController::class, 'index'])->middleware(['auth', 'verified'])->name('orders');
 
 Route::get('users', function () {
     return Inertia::render('Users');
